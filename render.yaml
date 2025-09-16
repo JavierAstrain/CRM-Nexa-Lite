@@ -8,24 +8,20 @@ services:
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port 10000
     healthCheckPath: /health
     envVars:
-      # Render completará automáticamente con la URL del frontend para CORS
-      - key: FRONTEND_ORIGIN
-        fromService:
-          name: nexa-frontend
-          type: web
-          property: url
-      # Render inyecta este connectionString como "postgres://..."
-      # Abajo ajustamos settings.py para que lo convierta correctamente.
+      # DB: Render provee el connectionString (postgres://...)
       - key: DATABASE_URL
         fromDatabase:
           name: nexa-db
           property: connectionString
-      # Agrega tu key de OpenAI al crear el blueprint (no se versiona)
+      # IA: la agregas al crear el Blueprint
       - key: OPENAI_API_KEY
         sync: false
-      # Render generará un secreto aleatorio
+      # JWT secreto generado por Render
       - key: JWT_SECRET
         generateValue: true
+      # Para simplificar CORS en el primer deploy (ajústalo luego a tu dominio)
+      - key: FRONTEND_ORIGIN
+        value: "*"
 
   - type: web
     name: nexa-frontend
@@ -35,12 +31,10 @@ services:
     buildCommand: npm install && npm run build
     startCommand: npm run start
     envVars:
-      # Apunta automáticamente al backend que se crea en este blueprint
+      # ⚠️ Coloca aquí la URL pública del backend luego del primer deploy
       - key: NEXT_PUBLIC_API_BASE
-        fromService:
-          name: nexa-backend
-          type: web
-          property: url
+        value: "https://TU_BACKEND_PUBLIC_URL"
+        sync: false
 
 databases:
   - name: nexa-db
