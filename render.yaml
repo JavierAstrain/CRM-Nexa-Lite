@@ -9,15 +9,13 @@ services:
     healthCheckPath: /health
     envVars:
       - key: DATABASE_URL
-        fromDatabase:
-          name: nexa-db
-          property: connectionString
+        value: "sqlite:///./nexa.db"
       - key: OPENAI_API_KEY
-        value: "SET_IN_RENDER_DASHBOARD"   # <- placeholder; cámbialo luego en Environment
+        value: "SET_IN_RENDER"
       - key: JWT_SECRET
         generateValue: true
       - key: FRONTEND_ORIGIN
-        value: "*"                         # luego cámbialo por la URL del frontend
+        value: "*"
 
   - type: web
     name: nexa-frontend
@@ -28,10 +26,4 @@ services:
     startCommand: npm run start
     envVars:
       - key: NEXT_PUBLIC_API_BASE
-        value: "https://REPLACE_WITH_BACKEND_URL"  # <- placeholder; cámbialo luego
-
-databases:
-  - name: nexa-db
-    databaseName: nexa
-    user: nexa
-
+        value: "https://REPLACE_WITH_BACKEND_URL"
