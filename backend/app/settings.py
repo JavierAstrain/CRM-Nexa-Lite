@@ -3,7 +3,6 @@ from pydantic import BaseModel
 
 def normalize(url: str) -> str:
     if url.startswith("postgres://"):
-        # postgres:// -> postgresql+psycopg://
         return "postgresql+psycopg://" + url.split("://", 1)[1]
     if url.startswith("postgresql://"):
         return "postgresql+psycopg://" + url.split("://", 1)[1]
