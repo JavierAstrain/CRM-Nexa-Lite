@@ -9,7 +9,7 @@ services:
     healthCheckPath: /health
     envVars:
       - key: DATABASE_URL
-        value: "sqlite:///./nexa.db"
+        value: "sqlite:///./nexa.db"        # o fromDatabase si usas Postgres
       - key: OPENAI_API_KEY
         value: "SET_IN_RENDER"
       - key: JWT_SECRET
@@ -18,7 +18,7 @@ services:
         value: "*"
 
   - type: web
-    name: nexa-frontend
+    name: nexa-frontend-web   # <— nombre NUEVO para evitar el cambio de tipo
     env: node
     plan: free
     rootDir: frontend
