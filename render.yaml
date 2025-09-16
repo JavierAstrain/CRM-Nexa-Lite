@@ -12,11 +12,12 @@ services:
         fromDatabase:
           name: nexa-db
           property: connectionString
-      - key: OPENAI_API_KEY        # la completarás en el panel al crear el Blueprint
+      - key: OPENAI_API_KEY
+        value: "SET_IN_RENDER_DASHBOARD"   # <- placeholder; cámbialo luego en Environment
       - key: JWT_SECRET
         generateValue: true
       - key: FRONTEND_ORIGIN
-        value: "*"                 # tras el primer deploy, cámbiala por la URL del frontend
+        value: "*"                         # luego cámbialo por la URL del frontend
 
   - type: web
     name: nexa-frontend
@@ -27,9 +28,10 @@ services:
     startCommand: npm run start
     envVars:
       - key: NEXT_PUBLIC_API_BASE
-        value: "https://placeholder.example.com"  # luego la reemplazas por la URL del backend y redeploy
+        value: "https://REPLACE_WITH_BACKEND_URL"  # <- placeholder; cámbialo luego
 
 databases:
   - name: nexa-db
     databaseName: nexa
     user: nexa
+
